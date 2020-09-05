@@ -1,43 +1,47 @@
 from sys import argv, exit
 from os import system, execv
 
+#This file deals with the maths part of the graphing
+# things like formulating the value of "Y" for a certain "X"
 def main():
-	blacklist = []
-	start = -10
-	end = 10
-	jump = 1
-	coordinates = {}
-	if (len(argv) == 1):
-		print("Usage: grapher.py \"FORMULA\"")
-		exit(1)
-
+	blacklist = [] # this is to store the X value of the "holes" of the graph
+	start = -10 #Default value for start of X
+	end = 10 # Default value for the end of X
+	jump = 1 # value for smoothing out the graph
+	coordinates = {} 
 	formula = ""
-	for i in range(1, len(argv)):
-		if argv[i][:5].lower() == "start":
-			start = eval(argv[i][6:])
-
-		elif argv[i][:3].lower() == "end":
-			end = eval(argv[i][4:])
+	if (len(argv) > 1):
+		rawFormula = argv[1::]
 		
-		elif argv[i][:4].lower() == "jump":
-			jump = eval(argv[i][5:])
+	else:
+		rawFormula = Input("Formula: ")
+		rawFormula = rawFormula.split(' ')
+	
+	for i in range(0, len(rawFormula)):
+		if rawFormula[i][:5].lower() == "start":
+			start = eval(rawFormula[i][6:])
+
+		elif rawFormula[i][:3].lower() == "end":
+			end = eval(rawFormula[i][4:])
+		
+		elif rawFormula[i][:4].lower() == "jump":
+			jump = eval(rawFormula[i][5:])
 		
 		else:
-			formula += argv[i]
-
+			formula += rawFormula[i]
 	
 	for i in range(formula.count("x")):
 		place = formula.find('x')
 		if place != 0  and formula[place-1].isdigit():
-			formula = formula[0:place] + '*(y)' + formula[place+1:len(formula)]
+			formula = formula[0:place] + '*(t)' + formula[place+1:len(formula)]
 		else:
-			formula = formula[0:place] + '(y)' + formula[place+1:len(formula)]
-		
+			formula = formula[0:place] + '(t)' + formula[place+1:len(formula)]
+	
 		
 	i = start	
 	while i < end+1:
 		x = str(i)
-		temp = formula.replace("y", x)
+		temp = formula.replace("t", x)
 		try:
 			coordinates[i] = eval(temp)
 		except ZeroDivisionError:

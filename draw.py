@@ -2,6 +2,9 @@ from sys import argv
 from turtle import *
 from os import system
 
+# This file deals with the visulal parts of Graphing
+# This where the GUI is edited
+
 t = Turtle()
 s = Screen()
 t.pensize(3)
@@ -16,19 +19,19 @@ jump = keys[1] - keys[0]
 
 def main():
 
-	scope = (max(keys) +max(values)) /2
-	drawAxis(scope)
-	print(data)
+
+	scope = (max(keys) +max(values)) /2 #This variable is to set the zoom of the graph
+	drawAxis(scope) #draws the X and Y axises
 	draw(data)
 	system("PAUSE")
 
 def draw(data):
 	t.penup()
-	t.goto(keys[0], values[0])
+	t.goto(keys[0], values[0]) # goes to the first point
 	t.pendown()
 	t.speed(10)
 	iswritting = True
-	for i in data:
+	for i in data: #iterates through the data to draw the graph
 		if not iswritting:
 			t.pendown()
 			iswritting = True
